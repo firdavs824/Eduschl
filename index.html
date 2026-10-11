@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="uz" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>EduPrime CRM - Xususiy Maktab & Repetitorlik Tizimi</title>
+  <meta name="description" content="Xususiy maktablar va repetitorlik markazlari uchun zamonaviy, mukammal CRM boshqaruv tizimi.">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-container">
+  
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="brand-icon">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+      <div class="brand-info">
+        <h2>EduPrime <span class="brand-badge">PRO CRM</span></h2>
+        <p>Xususiy Maktab & Repetitor</p>
+      </div>
+      <button class="sidebar-mobile-close" id="sidebarMobileCloseBtn" onclick="closeMobileSidebar()" aria-label="Menyuni yopish">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Repetitor Rejimi Indikatori -->
+    <div class="tutor-mode-banner">
+      <div class="mode-tag">
+        <span class="pulse-dot"></span>
+        <span id="currentRoleText">Admin Boshqaruvi</span>
+      </div>
+      <i class="fa-solid fa-shield-halved" style="color: var(--primary);"></i>
+    </div>
+
+    <!-- Menyu punktlari -->
+    <nav class="nav-menu">
+      <span class="nav-section-title">Boshqaruv</span>
+      
+      <a class="nav-item active" data-view="dashboard-view" id="nav-dashboard">
+        <i class="fa-solid fa-chart-pie"></i>
+        <span>Boshqaruv Paneli</span>
+      </a>
+
+      <!-- Maxsus talab: Ustozlar va Repetitorlar bo'limi -->
+      <a class="nav-item special-tutor-nav" data-view="teachers-view" id="nav-teachers">
+        <i class="fa-solid fa-chalkboard-user"></i>
+        <span>Ustozlar & Repetitorlar</span>
+        <span class="nav-badge badge-amber" id="totalTutorsBadge">6 ustoz</span>
+      </a>
+
+      <a class="nav-item" data-view="students-view" id="nav-students">
+        <i class="fa-solid fa-user-graduate"></i>
+        <span>O'quvchilar Bazasi</span>
+        <span class="nav-badge" id="totalStudentsBadge">18 ta</span>
+      </a>
+
+      <a class="nav-item" data-view="schedule-view" id="nav-schedule">
+        <i class="fa-solid fa-calendar-days"></i>
+        <span>Dars Jadvallari</span>
+      </a>
+
+      <a class="nav-item" data-view="attendance-view" id="nav-attendance">
+        <i class="fa-solid fa-clipboard-check"></i>
+        <span>Davomat</span>
+        <span class="nav-badge badge-amber" id="attendanceBadge">Bugun</span>
+      </a>
+
+      <a class="nav-item" data-view="groups-view" id="nav-groups">
+        <i class="fa-solid fa-people-group"></i>
+        <span>Guruhlar</span>
+        <span class="nav-badge" id="groupsBadge">12 guruh</span>
+      </a>
+
+      <span class="nav-section-title">Moliya & CRM</span>
+
+      <a class="nav-item" data-view="finance-view" id="nav-finance">
+        <i class="fa-solid fa-wallet"></i>
+        <span>Moliya & To'lovlar</span>
+        <span class="nav-badge badge-rose" id="debtBadge">3 qarzdor</span>
+      </a>
+
+      <a class="nav-item" data-view="expenses-view" id="nav-expenses">
+        <i class="fa-solid fa-money-bill-transfer"></i>
+        <span>Xarajatlar & Ish Haqi</span>
+      </a>
+
+      <a class="nav-item" data-view="leads-view" id="nav-leads">
+        <i class="fa-solid fa-bullseye"></i>
+        <span>Qabul & Lidlar</span>
+        <span class="nav-badge" id="leadsBadge">4 yangi</span>
+      </a>
+
+      <span class="nav-section-title">Tizim</span>
+
+      <a class="nav-item" data-view="notifications-view" id="nav-notifications">
+        <i class="fa-solid fa-bell"></i>
+        <span>Bildirishnomalar</span>
+        <span class="nav-badge badge-rose" id="notifBadge">5 yangi</span>
+      </a>
+
+      <a class="nav-item" data-view="settings-view" id="nav-settings">
+        <i class="fa-solid fa-sliders"></i>
+        <span>Sozlamalar</span>
+      </a>
+    </nav>
+
+    <!-- Sidebar Pastki qismi: Foydalanuvchi ma'lumoti -->
+    <div class="sidebar-footer">
+      <div class="user-profile-widget" id="userProfileWidget" onclick="openRoleSwitcherModal()">
+        <div class="user-avatar" id="sidebarAvatar">AD</div>
+        <div class="user-details">
+          <div class="user-name" id="sidebarUserName">Bosh Administrator</div>
+          <div class="user-role-label" id="sidebarUserRole">Super Admin</div>
+        </div>
+        <i class="fa-solid fa-repeat" style="color: var(--text-muted); font-size: 13px;"></i>
+      </div>
+      <div class="sidebar-footer-actions">
+        <button class="sidebar-action-btn" onclick="toggleTheme()" title="Tun / Kun rejimi">
+          <i class="fa-solid fa-moon"></i> <span>Mavzu (Dark / Light)</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+  
+  <!-- Mobil Menyu Parda (Backdrop) -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeMobileSidebar()"></div>
+
+  <!-- ==================== ASOSIY MAYDON (MAIN CONTENT) ==================== -->
+  <div class="main-wrapper">
+    
+    <!-- Topbar (Yuqori panel) -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileSidebar()" aria-label="Menyuni ochish" title="Menyuni ochish">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div class="page-breadcrumb">
+          <h1 id="pageTitle">Boshqaruv Paneli</h1>
+          <p id="pageSubtitle">Ziyo Nur Xususiy Maktabi & Repetitorlik Markazi</p>
+        </div>
+      </div>
+
+      <div class="global-search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="globalSearchInput" placeholder="Ustoz, repetitor, o'quvchi yoki fanni qidirish...">
+      </div>
+
+      <div class="topbar-right">
+        <!-- Mobil Qidiruv Tugmasi -->
+        <button class="icon-btn mobile-search-btn" id="mobileSearchBtn" title="Qidiruv" onclick="toggleMobileSearchBar()" aria-label="Qidirish">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+        <!-- Rol almashtirish tugmasi -->
+        <div class="role-switch-container">
+          <button class="role-switch-btn active" id="btnAdminRole" onclick="switchSystemRole('admin')" title="Admin rejimi">
+            <i class="fa-solid fa-user-shield"></i> <span class="role-btn-text">Admin</span>
+          </button>
+          <button class="role-switch-btn" id="btnTeacherRole" onclick="switchSystemRole('teacher')" title="Ustoz kabineti">
+            <i class="fa-solid fa-chalkboard-user"></i> <span class="role-btn-text">Ustoz</span>
+          </button>
+        </div>
+
+        <!-- Mavzu o'zgartirish (Dark / Light) -->
+        <button class="icon-btn" id="themeToggleBtn" title="Tun / Kun rejimi" onclick="toggleTheme()" aria-label="Mavzu almashtirish">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <!-- Bildirishnomalar -->
+        <button class="icon-btn" id="notificationsBtn" title="Bildirishnomalar" onclick="switchView('notifications-view')" aria-label="Bildirishnomalar">
+          <i class="fa-regular fa-bell"></i>
+          <span class="badge-dot"></span>
+        </button>
+
+        <!-- Yangi qo'shish tugmasi -->
+        <button class="btn-primary topbar-add-btn" onclick="openAddModal()" aria-label="Yangi qo'shish">
+          <i class="fa-solid fa-plus"></i>
+          <span class="add-btn-text">Yangi Qo'shish</span>
+        </button>
+      </div>
+
+      <!-- Mobil ochiluvchi qidiruv paneli -->
+      <div class="mobile-search-dropdown" id="mobileSearchDropdown">
+        <div class="mobile-search-inner">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="mobileSearchInput" placeholder="Ustoz, repetitor yoki o'quvchi qidirish..." oninput="handleMobileSearch(this.value)">
+          <button class="mobile-search-close-btn" onclick="toggleMobileSearchBar(false)" aria-label="Qidiruvni yopish">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Asosiy Kontent Bo'limlari -->
+    <main class="content-area">
+
+      <!-- ================= 1. BOSHQARUV PANELI (DASHBOARD VIEW) ================= -->
+      <section id="dashboard-view" class="view-section active-view">
+        
+        <!-- KPI Kartochkalari -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Jami O'quvchilar</span>
+              <div class="stat-icon indigo"><i class="fa-solid fa-user-graduate"></i></div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="kpiTotalStudents">18</span>
+              <span class="stat-trend positive"><i class="fa-solid fa-arrow-trend-up"></i> +12%</span>
+            </div>
+            <span class="stat-footnote">Maktab va Repetitor o'quvchilari</span>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Repetitor & Ustozlar</span>
+              <div class="stat-icon emerald"><i class="fa-solid fa-chalkboard-user"></i></div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="kpiTotalTeachers">6</span>
+              <span class="stat-trend positive"><i class="fa-solid fa-circle-check"></i> Faol</span>
+            </div>
+            <span class="stat-footnote">Barcha yo'nalishlar bo'yicha</span>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Oylik Tushum (Kurslar)</span>
+              <div class="stat-icon amber"><i class="fa-solid fa-coins"></i></div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="kpiMonthlyIncome">48.2 mln</span>
+              <span class="stat-trend positive"><i class="fa-solid fa-arrow-trend-up"></i> 89% to'landi</span>
+            </div>
+            <span class="stat-footnote">Kutilayotgan: 5.4 mln UZS</span>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Qarzdorlik Holati</span>
+              <div class="stat-icon rose"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="kpiDebtorsCount">3 nafar</span>
+              <span class="stat-trend danger"><i class="fa-solid fa-clock"></i> Eslatma kerak</span>
+            </div>
+            <span class="stat-footnote">Jami qarz: 2,400,000 UZS</span>
+          </div>
+        </div>
+
+        <!-- Dashboard Kontent To'ri -->
+        <div class="dashboard-grid-layout">
+          
+          <!-- Chap blok: Bugungi darslar xronologiyasi -->
+          <div class="content-card">
+            <div class="card-title-bar">
+              <h3><i class="fa-solid fa-calendar-check" style="color: var(--primary);"></i> Bugungi Repetitor & Maktab Darslari</h3>
+              <a class="card-action-link" onclick="switchView('schedule-view')">To'liq jadval <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+            <div class="today-classes-list" id="dashboardTodayClasses">
+              <!-- JS orqali dinamik to'ldiriladi -->
+            </div>
+          </div>
+
+          <!-- O'ng blok: Yangi lidlar va tezkor eslatmalar -->
+          <div class="content-card">
+            <div class="card-title-bar">
+              <h3><i class="fa-solid fa-fire" style="color: var(--accent-amber);"></i> Yangi Arizalar (Lidlar)</h3>
+              <a class="card-action-link" onclick="switchView('leads-view')">Barchasi <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+            <div class="leads-list" id="dashboardRecentLeads">
+              <!-- JS orqali to'ldiriladi -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Repetitorlar tezkor kartochkalari preview -->
+        <div class="content-card">
+          <div class="card-title-bar">
+            <h3><i class="fa-solid fa-star" style="color: var(--accent-amber);"></i> Repetitorlik Guruhlari va Ustozlar Holati</h3>
+            <a class="card-action-link" onclick="switchView('teachers-view')">Ustozlar bo'limiga o'tish <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+          <div class="teachers-grid" id="dashboardTeachersPreview">
+            <!-- JS orqali to'ldiriladi -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= 2. USTOZLAR VA REPETITORLAR BO'LIMI (CORE REQUEST!) ================= -->
+      <section id="teachers-view" class="view-section">
+        
+        <!-- Maxsus Repetitorlik Boshqaruv Banneri -->
+        <div class="tutors-section-banner">
+          <div class="banner-content">
+            <h2><i class="fa-solid fa-chalkboard-user"></i> Repetitorlar va O'qituvchilar Portali</h2>
+            <p>Har bir ustoz kartochkasini bosing: uning haftalik <strong>dars jadvallari</strong>, qatnashadigan <strong>repetitor o'quvchilari</strong>, to'lov holati va o'zlashtirishini to'liq ko'rishingiz mumkin.</p>
+          </div>
+          <div class="banner-quick-stats">
+            <div class="banner-stat-box">
+              <div class="num" id="bannerTotalTutorsCount">6</div>
+              <div class="lbl">Jami Ustozlar</div>
+            </div>
+            <div class="banner-stat-box">
+              <div class="num" id="bannerTotalGroupsCount">12</div>
+              <div class="lbl">Repetitor Guruhlar</div>
+            </div>
+            <div class="banner-stat-box">
+              <div class="num" id="bannerAvgRating">4.9 ★</div>
+              <div class="lbl">O'rtacha Reyting</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filtirlar va Qidiruv toolbar -->
+        <div class="section-toolbar">
+          <div class="filter-pills" id="teacherFilterPills">
+            <button class="filter-btn active" data-filter="all" onclick="filterTeachers('all')">Barchasi (6)</button>
+            <button class="filter-btn" data-filter="repetitor" onclick="filterTeachers('repetitor')">Repetitorlar (4)</button>
+            <button class="filter-btn" data-filter="maktab" onclick="filterTeachers('maktab')">Maktab Ustozlari (2)</button>
+          </div>
+
+          <div style="display: flex; gap: 10px;">
+            <button class="btn-primary" onclick="openAddTeacherModal()">
+              <i class="fa-solid fa-user-plus"></i> Yangi Ustoz Qo'shish
+            </button>
+          </div>
+        </div>
+
+        <!-- Ustozlar Kartochkalari To'ri (Bosganda modal ochiladi!) -->
+        <div class="teachers-grid" id="teachersListGrid">
+          <!-- Dinamik render qilinadi -->
+        </div>
+
+      </section>
+
+      <!-- ================= 3. O'QUVCHILAR BAZASI (STUDENTS VIEW) ================= -->
+      <section id="students-view" class="view-section">
+        
+        <div class="section-toolbar">
+          <div class="filter-pills" id="studentFilterPills">
+            <button class="filter-btn active" data-filter="all" onclick="filterStudents('all', this)">Barcha O'quvchilar</button>
+            <button class="filter-btn" data-filter="repetitor" onclick="filterStudents('repetitor', this)">Faqat Repetitordagilar</button>
+            <button class="filter-btn" data-filter="debt" onclick="filterStudents('debt', this)">Qarzdorlar</button>
+          </div>
+
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn-secondary" onclick="exportStudentsToExcel()" title="Excel (CSV) yuklab olish">
+              <i class="fa-solid fa-file-excel" style="color: var(--accent-emerald);"></i> Excel Yuklash
+            </button>
+            <button class="btn-primary" onclick="openAddStudentModal()">
+              <i class="fa-solid fa-plus"></i> Yangi O'quvchi Qo'shish
+            </button>
+          </div>
+        </div>
+
+        <!-- O'quvchilar Jadvali -->
+        <div class="data-table-wrap">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>O'quvchi Ism-Familiyasi</th>
+                <th>Sinfi / Guruhi</th>
+                <th>Repetitor Kurslari & Ustozi</th>
+                <th>Ota-onasi / Aloqa</th>
+                <th>To'lov Holati</th>
+                <th>O'zlashtirish</th>
+                <th>Harakatlar</th>
+              </tr>
+            </thead>
+            <tbody id="studentsTableBody">
+              <!-- JS orqali to'ldiriladi -->
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+      <!-- ================= 4. DARS JADVALLARI (SCHEDULE VIEW) ================= -->
+      <section id="schedule-view" class="view-section">
+        <div class="section-toolbar">
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <h3 style="font-weight: 800; font-size: 18px;">Haftalik Darslar va Repetitorlik Jadvallari</h3>
+            <span class="badge-repetitor" style="padding: 4px 10px; border-radius: 20px; font-weight: 700;">Haftalik smenalar</span>
+          </div>
+          
+          <div style="display: flex; gap: 8px;">
+            <select id="scheduleDayFilter" onchange="renderScheduleView()" style="padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-main); font-weight: 600;">
+              <option value="all">Barcha Kunlar</option>
+              <option value="Dushanba">Dushanba</option>
+              <option value="Seshanba">Seshanba</option>
+              <option value="Chorshanba">Chorshanba</option>
+              <option value="Payshanba">Payshanba</option>
+              <option value="Juma">Juma</option>
+              <option value="Shanba">Shanba</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Jadval Ro'yxati -->
+        <div class="content-card" style="padding: 24px;">
+          <div class="schedule-list-timeline" id="fullScheduleContainer">
+            <!-- JS orqali render bo'ladi -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 5. MOLIYA & TO'LOVLAR (FINANCE VIEW) ================= -->
+      <section id="finance-view" class="view-section">
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Jami Kurslar Tushumi</span>
+              <div class="stat-icon emerald"><i class="fa-solid fa-money-bill-wave"></i></div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value">48,200,000 UZS</span>
+            </div>
+            <span class="stat-footnote">Shu oy qabul qilingan to'lovlar</span>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Repetitorlar Ulushi (70%)</span>
+              <div class="stat-icon indigo"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value">33,740,000 UZS</span>
+            </div>
+            <span class="stat-footnote">Ustozlarga to'lanadigan qism</span>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Maktab Daromadi (30%)</span>
+              <div class="stat-icon amber"><i class="fa-solid fa-building-columns"></i></div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value">14,460,000 UZS</span>
+            </div>
+            <span class="stat-footnote">Markaz sof komissiyasi</span>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Jami Qarzdorlik</span>
+              <div class="stat-icon rose"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" style="color: var(--accent-rose);">2,400,000 UZS</span>
+            </div>
+            <span class="stat-footnote">3 nafar o'quvchidan</span>
+          </div>
+        </div>
+
+        <div class="section-toolbar">
+          <h3 style="font-size: 17px; font-weight: 800;">To'lovlar Tarixi va Kvitansiyalar</h3>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn-secondary" onclick="exportFinanceToExcel()" title="Moliya hisobotini Excel (CSV) yuklab olish">
+              <i class="fa-solid fa-file-excel" style="color: var(--accent-emerald);"></i> Excel Yuklash
+            </button>
+            <button class="btn-primary" onclick="openPaymentModal()">
+              <i class="fa-solid fa-receipt"></i> Yangi To'lov Qabul Qilish
+            </button>
+          </div>
+        </div>
+
+        <div class="data-table-wrap">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>O'quvchi</th>
+                <th>Kurs / To'lov Turi</th>
+                <th>Ustoz / Repetitor</th>
+                <th>Summa</th>
+                <th>Sana</th>
+                <th>To'lov Usuli</th>
+                <th>Status</th>
+                <th>Chek</th>
+              </tr>
+            </thead>
+            <tbody id="paymentsTableBody">
+              <!-- JS orqali to'ldiriladi -->
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+      <!-- ================= 6. QABUL & LIDLAR (LEADS VIEW) ================= -->
+      <section id="leads-view" class="view-section">
+        <div class="section-toolbar">
+          <h3 style="font-size: 18px; font-weight: 800;">Yangi Arizalar va Sinov Darsiga Yozilganlar</h3>
+          <button class="btn-primary" onclick="openAddLeadModal()">
+            <i class="fa-solid fa-plus"></i> Yangi Ariza Qo'shish
+          </button>
+        </div>
+
+        <div class="data-table-wrap">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Ariza ID</th>
+                <th>Ism-familiya</th>
+                <th>Sinf / Yoshi</th>
+                <th>Qiziqqan Fani / Repetitor</th>
+                <th>Telefon Raqami</th>
+                <th>Holat (Status)</th>
+                <th>Izoh</th>
+                <th>Harakat</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableBody">
+              <!-- JS orqali to'ldiriladi -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= 7. DAVOMAT (ATTENDANCE VIEW) ================= -->
+      <section id="attendance-view" class="view-section">
+        <div class="attendance-banner">
+          <div class="banner-content">
+            <h2><i class="fa-solid fa-clipboard-check"></i> Davomat Tizimi</h2>
+            <p>Har bir guruh va dars uchun o'quvchilarning keldi/kelmadi holatini belgilang. Kunlik va oylik davomat hisoboti avtomatik shakllantiriladi.</p>
+          </div>
+          <div class="banner-quick-stats">
+            <div class="banner-stat-box">
+              <div class="num" id="attendanceTodayPercent">94%</div>
+              <div class="lbl">Bugungi Davomat</div>
+            </div>
+            <div class="banner-stat-box">
+              <div class="num" id="attendanceMonthAvg">91%</div>
+              <div class="lbl">Oylik O'rtacha</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-toolbar">
+          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <select id="attendanceGroupSelect" onchange="renderAttendanceView()" style="padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-main); font-weight: 600;">
+              <!-- JS orqali to'ldiriladi -->
+            </select>
+            <input type="date" id="attendanceDatePicker" onchange="renderAttendanceView()" style="padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-main); font-weight: 600;">
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn-secondary" onclick="exportAttendanceToExcel()" title="Davomat hisobotini Excel (CSV) yuklab olish">
+              <i class="fa-solid fa-file-excel" style="color: var(--accent-emerald);"></i> Excel Yuklash
+            </button>
+            <button class="btn-primary" onclick="saveAttendance()">
+              <i class="fa-solid fa-check-double"></i> Davomatni Saqlash
+            </button>
+          </div>
+        </div>
+
+        <div class="content-card" style="padding: 24px;">
+          <div class="data-table-wrap">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>O'quvchi</th>
+                  <th>Sinfi</th>
+                  <th>Holati</th>
+                  <th>Izoh</th>
+                </tr>
+              </thead>
+              <tbody id="attendanceTableBody">
+                <!-- JS orqali to'ldiriladi -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Davomat Statistikasi -->
+        <div class="content-card" style="margin-top: 24px;">
+          <div class="card-title-bar">
+            <h3><i class="fa-solid fa-chart-bar" style="color: var(--primary);"></i> Davomat Statistikasi (So'nggi 7 kun)</h3>
+          </div>
+          <div class="attendance-chart-container" id="attendanceChartContainer">
+            <!-- JS orqali bar chart render qilinadi -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 8. GURUHLAR BOSHQARUVI (GROUPS VIEW) ================= -->
+      <section id="groups-view" class="view-section">
+        <div class="section-toolbar">
+          <h3 style="font-size: 18px; font-weight: 800;">Guruhlar Boshqaruvi</h3>
+          <button class="btn-primary" onclick="openAddGroupModal()">
+            <i class="fa-solid fa-plus"></i> Yangi Guruh Ochish
+          </button>
+        </div>
+
+        <div class="groups-grid" id="groupsGridContainer">
+          <!-- JS orqali to'ldiriladi -->
+        </div>
+      </section>
+
+      <!-- ================= 9. XARAJATLAR & ISH HAQI (EXPENSES VIEW) ================= -->
+      <section id="expenses-view" class="view-section">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Oylik Jami Xarajatlar</span>
+              <div class="stat-icon rose"><i class="fa-solid fa-arrow-down"></i></div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="kpiTotalExpenses">18.5 mln</span>
+            </div>
+            <span class="stat-footnote">Maosh + Ijara + Boshqa</span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Xodimlar Maoshi</span>
+              <div class="stat-icon indigo"><i class="fa-solid fa-users-gear"></i></div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="kpiTotalSalaries">12.8 mln</span>
+            </div>
+            <span class="stat-footnote">6 nafar xodim + ustoz ulushi</span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Sof Foyda (Taxminan)</span>
+              <div class="stat-icon emerald"><i class="fa-solid fa-chart-line"></i></div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="kpiNetProfit" style="color: var(--accent-emerald);">29.7 mln</span>
+            </div>
+            <span class="stat-footnote">Tushum minus xarajatlar</span>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">To'lanmagan Maosh</span>
+              <div class="stat-icon amber"><i class="fa-solid fa-hourglass-half"></i></div>
+            </div>
+            <div class="stat-body">
+              <span class="stat-value" id="kpiUnpaidSalary" style="color: var(--accent-amber);">2 ta</span>
+            </div>
+            <span class="stat-footnote">Maosh kutayotgan xodimlar</span>
+          </div>
+        </div>
+
+        <div class="section-toolbar">
+          <div class="filter-pills" id="expenseFilterPills">
+            <button class="filter-btn active" data-filter="all" onclick="filterExpenses('all', this)">Barchasi</button>
+            <button class="filter-btn" data-filter="salary" onclick="filterExpenses('salary', this)">Maosh</button>
+            <button class="filter-btn" data-filter="rent" onclick="filterExpenses('rent', this)">Ijara</button>
+            <button class="filter-btn" data-filter="supply" onclick="filterExpenses('supply', this)">Jihozlar</button>
+            <button class="filter-btn" data-filter="other" onclick="filterExpenses('other', this)">Boshqa</button>
+          </div>
+          <button class="btn-primary" onclick="openAddExpenseModal()">
+            <i class="fa-solid fa-plus"></i> Yangi Xarajat Qo'shish
+          </button>
+        </div>
+
+        <div class="data-table-wrap">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Tavsif</th>
+                <th>Turi</th>
+                <th>Summa</th>
+                <th>Sana</th>
+                <th>Xodim / Qabul qiluvchi</th>
+                <th>Holat</th>
+                <th>Harakat</th>
+              </tr>
+            </thead>
+            <tbody id="expensesTableBody">
+              <!-- JS orqali to'ldiriladi -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= 10. BILDIRISHNOMALAR MARKAZI (NOTIFICATIONS VIEW) ================= -->
+      <section id="notifications-view" class="view-section">
+        <div class="section-toolbar">
+          <h3 style="font-size: 18px; font-weight: 800;"><i class="fa-solid fa-bell" style="color: var(--primary);"></i> Bildirishnomalar Markazi</h3>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-secondary" onclick="markAllNotificationsRead()">
+              <i class="fa-solid fa-check-double"></i> Barchasini O'qilgan Deb Belgilash
+            </button>
+            <button class="btn-primary" onclick="openSendSMSModal()">
+              <i class="fa-solid fa-paper-plane"></i> SMS / Telegram Yuborish
+            </button>
+          </div>
+        </div>
+
+        <!-- Bildirishnomalar Statistikasi -->
+        <div class="notif-stats-row">
+          <div class="notif-stat-card">
+            <i class="fa-solid fa-envelope notif-stat-icon" style="color: var(--primary);"></i>
+            <div>
+              <div class="notif-stat-num" id="notifTotalCount">12</div>
+              <div class="notif-stat-label">Jami Xabarlar</div>
+            </div>
+          </div>
+          <div class="notif-stat-card">
+            <i class="fa-solid fa-circle-exclamation notif-stat-icon" style="color: var(--accent-rose);"></i>
+            <div>
+              <div class="notif-stat-num" id="notifUnreadCount">5</div>
+              <div class="notif-stat-label">O'qilmagan</div>
+            </div>
+          </div>
+          <div class="notif-stat-card">
+            <i class="fa-solid fa-paper-plane notif-stat-icon" style="color: var(--accent-emerald);"></i>
+            <div>
+              <div class="notif-stat-num" id="notifSentSMS">8</div>
+              <div class="notif-stat-label">Yuborilgan SMS</div>
+            </div>
+          </div>
+          <div class="notif-stat-card">
+            <i class="fa-brands fa-telegram notif-stat-icon" style="color: #0088cc;"></i>
+            <div>
+              <div class="notif-stat-num" id="notifSentTelegram">15</div>
+              <div class="notif-stat-label">Telegram Xabarlar</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bildirishnomalar Ro'yxati -->
+        <div class="notifications-list" id="notificationsListContainer">
+          <!-- JS orqali to'ldiriladi -->
+        </div>
+      </section>
+
+      <!-- ================= 11. SOZLAMALAR (SETTINGS VIEW) ================= -->
+      <section id="settings-view" class="view-section">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; max-width: 1100px; width: 100%;">
+          
+          <!-- 1. Maktab Asosiy Ma'lumotlari -->
+          <div class="content-card">
+            <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-school" style="color: var(--primary);"></i> Maktab & CRM Sozlamalari
+            </h3>
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label>Maktab / O'quv Markazi Nomi</label>
+              <input type="text" id="settingSchoolName" value="Ziyo Nur Xususiy Maktabi & Akademiyasi">
+            </div>
+            <div class="form-row" style="margin-bottom: 12px;">
+              <div class="form-group">
+                <label>Telefon raqam</label>
+                <input type="text" id="settingPhone" value="+998 71 200 45 45">
+              </div>
+              <div class="form-group">
+                <label>O'quv yili</label>
+                <input type="text" id="settingYear" value="2026-2027">
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 16px;">
+              <label>Manzil</label>
+              <input type="text" id="settingAddress" value="Toshkent sh., Yunusobod tumani, Amir Temur shox ko'chasi 14">
+            </div>
+            <button class="btn-primary" onclick="saveSettings()">
+              <i class="fa-solid fa-check"></i> Saqlash
+            </button>
+          </div>
+
+          <!-- 2. Telegram Bot Xabarnoma Integratsiyasi -->
+          <div class="content-card">
+            <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+              <i class="fa-brands fa-telegram" style="color: #229ED9;"></i> Telegram Bot Integratsiyasi
+            </h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.4;">
+              To'lov qabul qilinganda, yangi ariza tushganda yoki o'quvchi darsga kelmaganda Telegram orqali xabar yuborish.
+            </p>
+            <div class="form-group" style="margin-bottom: 12px;">
+              <label>Telegram Bot Token (@BotFather)</label>
+              <input type="password" id="settingTgBotToken" placeholder="123456789:ABCdefGhIJKlmNoPQRsTuvwxYZ">
+            </div>
+            <div class="form-group" style="margin-bottom: 14px;">
+              <label>Admin / Kanal Chat ID</label>
+              <input type="text" id="settingTgChatId" placeholder="-1001234567890 yoki chat ID">
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="btn-primary" onclick="saveTelegramSettings()" style="background: #229ED9; border-color: #229ED9;">
+                <i class="fa-solid fa-floppy-disk"></i> Tokenni Saqlash
+              </button>
+              <button class="btn-secondary" onclick="testTelegramNotification()">
+                <i class="fa-solid fa-paper-plane"></i> Test Xabar
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. Zaxira Nusxa (Backup & Restore) & Ma'lumotlarni Boshqarish -->
+          <div class="content-card">
+            <h3 style="font-size: 16px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-database" style="color: var(--accent-emerald);"></i> CRM Bazasi & Zaxira Nusxa
+            </h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px; line-height: 1.4;">
+              Barcha o'quvchilar, ustozlar, jadvallar va to'lovlar tarixini faylga yuklab oling yoki boshqa qurilmaga tiklang.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <button class="btn-secondary" onclick="exportFullDatabaseJSON()" style="width: 100%; justify-content: center;">
+                <i class="fa-solid fa-download"></i> Baza Nusxasini Yuklab Olish (.json)
+              </button>
+              
+              <label class="btn-secondary" style="width: 100%; justify-content: center; cursor: pointer; margin: 0; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-upload"></i> Fayldan Qayta Tiklash (.json)
+                <input type="file" id="importDatabaseInput" accept=".json" onchange="importFullDatabaseJSON(event)" style="display: none;">
+              </label>
+
+              <button class="btn-secondary" onclick="resetToDefaultData()" style="color: var(--accent-rose); border-color: rgba(244, 63, 94, 0.3); width: 100%; justify-content: center;">
+                <i class="fa-solid fa-rotate-left"></i> Standart Boshlang'ich Ma'lumotlarga Qaytish
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ==================== MOBIL PASTKI NAVIGATSIYA (BOTTOM NAVIGATION BAR) ==================== -->
+    <nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="Mobil Tezkor Navigatsiya">
+      <button class="bottom-nav-item active" data-view="dashboard-view" onclick="switchView('dashboard-view')" aria-label="Boshqaruv">
+        <i class="fa-solid fa-chart-pie"></i>
+        <span>Asosiy</span>
+      </button>
+      <button class="bottom-nav-item" data-view="teachers-view" onclick="switchView('teachers-view')" aria-label="Ustozlar">
+        <i class="fa-solid fa-chalkboard-user"></i>
+        <span>Ustozlar</span>
+      </button>
+      <button class="bottom-nav-item" data-view="students-view" onclick="switchView('students-view')" aria-label="O'quvchilar">
+        <i class="fa-solid fa-user-graduate"></i>
+        <span>O'quvchilar</span>
+      </button>
+      <button class="bottom-nav-item" data-view="attendance-view" onclick="switchView('attendance-view')" aria-label="Davomat">
+        <i class="fa-solid fa-clipboard-check"></i>
+        <span>Davomat</span>
+      </button>
+      <button class="bottom-nav-item" onclick="toggleMobileSidebar()" aria-label="Barcha bo'limlar">
+        <i class="fa-solid fa-bars"></i>
+        <span>Menyu</span>
+      </button>
+    </nav>
+  </div>
+</div>
+
+<!-- ===================================================================
+     MAXSUS OYNA: USTOZNI BOSGANDA OCHILADIGAN BATAFSIL MODAL
+     (Qachon dars o'tishi va repetitordagi bollar ro'yxati chiqadi)
+     =================================================================== -->
+<div class="modal-overlay" id="teacherDetailModal">
+  <div class="teacher-detail-modal-card">
+    
+    <!-- Modal Bosh Qismi -->
+    <div class="teacher-modal-header">
+      <div class="teacher-modal-profile">
+        <img src="" id="modalTeacherImg" alt="Ustoz" class="modal-profile-img">
+        <div class="modal-profile-info">
+          <h2 id="modalTeacherName">Ustoz Ismi</h2>
+          <div class="sub-tag">
+            <span id="modalTeacherSubject" style="color: #fcd34d; font-weight: 700;"></span>
+            <span>•</span>
+            <span id="modalTeacherRoom"></span>
+            <span class="badge" id="modalTeacherBadge">Repetitor</span>
+          </div>
+        </div>
+      </div>
+      <button class="modal-close-btn" onclick="closeTeacherModal()" title="Yopish">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Modal Ichki Navigatsiyasi (Tabs) -->
+    <div class="modal-tabs">
+      <button class="modal-tab-btn active" onclick="switchModalTab('tab-schedule')" id="btnTabSchedule">
+        <i class="fa-solid fa-calendar-check"></i> 📅 Qachon Dars O'tishi (Jadvali)
+      </button>
+      <button class="modal-tab-btn" onclick="switchModalTab('tab-students')" id="btnTabStudents">
+        <i class="fa-solid fa-users"></i> 👥 Repetitordagi Bolalar Ro'yxati
+      </button>
+      <button class="modal-tab-btn" onclick="switchModalTab('tab-info')" id="btnTabInfo">
+        <i class="fa-solid fa-id-card"></i> ℹ️ Ustoz Haqida & To'lovlar
+      </button>
+    </div>
+
+    <!-- Modal Kontenti -->
+    <div class="teacher-modal-body">
+      
+      <!-- 1-TAB: QACHON DARS O'TISHI (DARSLAR JADVALI) -->
+      <div id="tab-schedule" class="tab-pane active">
+        <div style="margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+          <h4 style="font-size: 15px; font-weight: 700; color: var(--text-main);">
+            <i class="fa-solid fa-clock" style="color: var(--primary);"></i> Haftalik Aniq Dars Vaqtlari va Mavzular
+          </h4>
+          <span style="font-size: 12px; color: var(--text-muted);">Jami: <strong id="modalScheduleCount">0 ta</strong> dars bloki</span>
+        </div>
+        
+        <div class="schedule-list-timeline" id="modalTeacherScheduleList">
+          <!-- JS orqali to'ldiriladi: kun, soat, guruh, xona, mavzu -->
+        </div>
+      </div>
+
+      <!-- 2-TAB: REPETITORDAGI BOLALAR RO'YXATI (ISM-FAMILIYALARI) -->
+      <div id="tab-students" class="tab-pane">
+        <div class="tutor-students-box">
+          <div class="tutor-students-toolbar">
+            <h4>
+              <i class="fa-solid fa-graduation-cap" style="color: var(--accent-emerald);"></i> 
+              Repetitor Kursiga Qatnashuvchi Bolalar (<span id="modalTutorStudentsCount">0</span> nafar)
+            </h4>
+            <button class="btn-primary" style="padding: 6px 14px; font-size: 12px;" onclick="openEnrollStudentModal()">
+              <i class="fa-solid fa-user-plus"></i> + Shu Ustozga O'quvchi Biriktirish
+            </button>
+          </div>
+
+          <div class="data-table-wrap">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>O'quvchi Ism-Familiyasi</th>
+                  <th>Maktab Sinfi</th>
+                  <th>Repetitor Guruhi</th>
+                  <th>Ota-onasi Telefoni</th>
+                  <th>Kurs To'lovi</th>
+                  <th>O'zlashtirish</th>
+                </tr>
+              </thead>
+              <tbody id="modalTeacherStudentsList">
+                <!-- JS orqali to'ldiriladi -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-TAB: USTOZ HAQIDA VA TO'LOVLAR -->
+      <div id="tab-info" class="tab-pane">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+          <div class="highlight-box" style="padding: 16px;">
+            <div class="hl-label">Bog'lanish Ma'lumotlari</div>
+            <div style="margin-top: 8px; font-size: 13px; display: flex; flex-direction: column; gap: 6px;">
+              <div><strong>Telefon:</strong> <span id="modalTeacherPhone"></span></div>
+              <div><strong>Email:</strong> <span id="modalTeacherEmail"></span></div>
+              <div><strong>Tajriba:</strong> <span id="modalTeacherExp"></span></div>
+              <div><strong>Dars xonasi:</strong> <span id="modalTeacherRoomDetail"></span></div>
+            </div>
+          </div>
+          <div class="highlight-box" style="padding: 16px;">
+            <div class="hl-label">Repetitorlik Moliyasi & Kurs Narxi</div>
+            <div style="margin-top: 8px; font-size: 13px; display: flex; flex-direction: column; gap: 6px;">
+              <div><strong>Bir soatlik dars narxi:</strong> <span id="modalTeacherRate"></span></div>
+              <div><strong>Oylik jami tushum (taxminan):</strong> <span id="modalTeacherRevenue" style="color: var(--accent-emerald); font-weight: 700;"></span></div>
+              <div><strong>Ustoz ulushi (70%):</strong> <span id="modalTeacherShare" style="color: var(--primary); font-weight: 700;"></span></div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top: 16px; background: var(--bg-subtle); padding: 14px; border-radius: 8px;">
+          <div class="hl-label">Ustoz haqida qisqacha tavsif:</div>
+          <p id="modalTeacherBio" style="font-size: 13px; color: var(--text-main); margin-top: 6px; line-height: 1.5;"></p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Modal Pastki Paneli -->
+    <div class="teacher-modal-footer">
+      <div style="font-size: 12px; color: var(--text-muted);">
+        <i class="fa-solid fa-circle-info"></i> Ma'lumotlar real vaqt rejimida yangilanadi
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button class="btn-secondary" onclick="simulateSendSMS()">
+          <i class="fa-solid fa-paper-plane"></i> Ota-onalarga SMS Yuborish
+        </button>
+        <button class="btn-primary" onclick="openTeacherPersonalView()">
+          <i class="fa-solid fa-chalkboard-user"></i> Ushbu Ustoz Kabinetiga O'tish
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================================================================
+     YANGI O'QITUVCHI QO'SHISH MODAL OYNASI
+     =================================================================== -->
+<div class="modal-overlay" id="addTeacherModal">
+  <div class="standard-modal">
+    <div class="standard-modal-header">
+      <h3>Yangi O'qituvchi / Repetitor Qo'shish</h3>
+      <button class="modal-close-btn" onclick="closeAddTeacherModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="addTeacherForm" onsubmit="handleCreateTeacher(event)">
+      <div class="standard-modal-body">
+        <div class="form-group">
+          <label>O'qituvchi Ism-Familiyasi *</label>
+          <input type="text" id="newTeacherName" required placeholder="Masalan: Nodirbek Alimov">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Fani / Yo'nalishi *</label>
+            <input type="text" id="newTeacherSubject" required placeholder="Masalan: Matematika & Geometriya">
+          </div>
+          <div class="form-group">
+            <label>Turi *</label>
+            <select id="newTeacherType" required>
+              <option value="repetitor">Repetitor</option>
+              <option value="maktab">Maktab Ustoz</option>
+              <option value="both">Ikkisi ham (Maktab + Repetitor)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Telefon raqami *</label>
+            <input type="text" id="newTeacherPhone" required placeholder="+998 90 123 45 67">
+          </div>
+          <div class="form-group">
+            <label>Dars Xonasi *</label>
+            <input type="text" id="newTeacherRoom" required placeholder="304-xona">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Ish tajribasi</label>
+            <input type="text" id="newTeacherExp" placeholder="5 yil">
+          </div>
+          <div class="form-group">
+            <label>Repetitor Kurs Narxi (Oyiga UZS)</label>
+            <input type="number" id="newTeacherFee" placeholder="850000" value="850000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Qisqacha tavsif / Bio</label>
+          <textarea id="newTeacherBio" rows="2" placeholder="O'qituvchi haqida yutuqlari va yo'nalishi..."></textarea>
+        </div>
+      </div>
+      <div class="standard-modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeAddTeacherModal()">Bekor qilish</button>
+        <button type="submit" class="btn-primary"><i class="fa-solid fa-check"></i> Qo'shish</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================================================================
+     YANGI O'QUVCHI QO'SHISH MODAL OYNASI
+     =================================================================== -->
+<div class="modal-overlay" id="addStudentModal">
+  <div class="standard-modal">
+    <div class="standard-modal-header">
+      <h3>Yangi O'quvchi Qo'shish</h3>
+      <button class="modal-close-btn" onclick="closeAddStudentModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="addStudentForm" onsubmit="handleCreateStudent(event)">
+      <div class="standard-modal-body">
+        <div class="form-group">
+          <label>O'quvchi Ism-Familiyasi *</label>
+          <input type="text" id="newStudentName" required placeholder="Masalan: Sardor Komilov">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Maktab Sinfi *</label>
+            <select id="newStudentClass" required>
+              <option value="1-A sinf">1-A sinf</option>
+              <option value="2-A sinf">2-A sinf</option>
+              <option value="5-B sinf">5-B sinf</option>
+              <option value="7-A sinf">7-A sinf</option>
+              <option value="8-A sinf">8-A sinf</option>
+              <option value="9-B sinf">9-B sinf</option>
+              <option value="10-A sinf">10-A sinf</option>
+              <option value="11-A sinf">11-A sinf</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Yoshi</label>
+            <input type="number" id="newStudentAge" value="14">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Ota-onasining F.I.O</label>
+            <input type="text" id="newStudentParent" placeholder="Komil Ergashev (Otasi)">
+          </div>
+          <div class="form-group">
+            <label>Bog'lanish Telefoni *</label>
+            <input type="text" id="newStudentPhone" required placeholder="+998 90 999 88 77">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Qatnashadigan Repetitori</label>
+          <select id="newStudentTutorSelect">
+            <option value="">(Repetitor tanlanmagan)</option>
+            <!-- JS orqali o'qituvchilar qo'shiladi -->
+          </select>
+        </div>
+      </div>
+      <div class="standard-modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeAddStudentModal()">Bekor qilish</button>
+        <button type="submit" class="btn-primary"><i class="fa-solid fa-check"></i> Saqlash</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================================================================
+     TO'LOV QABUL QILISH VA CHEK CHIQARISH MODALI
+     =================================================================== -->
+<div class="modal-overlay" id="paymentModal">
+  <div class="standard-modal" style="max-width: 620px;">
+    <div class="standard-modal-header">
+      <h3>To'lov Qabul Qilish & Chek Yaratish</h3>
+      <button class="modal-close-btn" onclick="closePaymentModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="paymentForm" onsubmit="handleCreatePayment(event)">
+      <div class="standard-modal-body">
+        <div class="form-group">
+          <label>O'quvchini tanlang *</label>
+          <select id="payStudentSelect" required onchange="autoFillPaymentDetails()">
+            <!-- JS orqali to'ldiriladi -->
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>To'lov Turi *</label>
+            <select id="payTypeSelect" required>
+              <option value="Repetitor kursi">Repetitor kursi</option>
+              <option value="Maktab kontrakti">Maktab oylik kontrakti</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>To'lov Usuli *</label>
+            <select id="payMethodSelect" required>
+              <option value="Payme / Click">Payme / Click</option>
+              <option value="Naqd pul">Naqd pul</option>
+              <option value="Uzum Bank">Uzum Bank</option>
+              <option value="Bank o'tkazmasi">Bank o'tkazmasi</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Kurs / Repetitor</label>
+            <input type="text" id="payCourseName" placeholder="Math-Prezident-1">
+          </div>
+          <div class="form-group">
+            <label>To'lov Summasi (UZS) *</label>
+            <input type="number" id="payAmount" required placeholder="850000" value="850000">
+          </div>
+        </div>
+
+        <!-- Chek Ko'rinishi (Receipt Preview) -->
+        <div class="receipt-box" id="receiptPreview">
+          <div class="receipt-header">
+            <h4>ZIYO NUR XUSUSIY MAKTABI</h4>
+            <div style="font-size: 11px;">TO'LOV KVITANSIYASI (CHEK)</div>
+          </div>
+          <div class="receipt-line"><span>O'quvchi:</span> <strong id="recStudentName">-</strong></div>
+          <div class="receipt-line"><span>To'lov maqsadi:</span> <span id="recCourseName">-</span></div>
+          <div class="receipt-line"><span>To'lov usuli:</span> <span id="recMethod">-</span></div>
+          <div class="receipt-line"><span>Sana & Vaqt:</span> <span id="recDate">-</span></div>
+          <div class="receipt-total receipt-line"><span>JAMI TO'LANDI:</span> <strong id="recAmount">0 UZS</strong></div>
+        </div>
+      </div>
+      <div class="standard-modal-footer">
+        <button type="button" class="btn-secondary" onclick="printReceipt()"><i class="fa-solid fa-print"></i> Chekni Chop Etish</button>
+        <button type="submit" class="btn-primary"><i class="fa-solid fa-check"></i> To'lovni Qayd Etish</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================================================================
+     USTOZGA O'QUVCHI BIRIKTIRISH MODALI
+     =================================================================== -->
+<div class="modal-overlay" id="enrollModal">
+  <div class="standard-modal" style="max-width: 480px;">
+    <div class="standard-modal-header">
+      <h3>Repetitorga O'quvchi Biriktirish</h3>
+      <button class="modal-close-btn" onclick="closeEnrollModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="enrollForm" onsubmit="handleEnrollStudent(event)">
+      <div class="standard-modal-body">
+        <div class="form-group">
+          <label>Tanlangan Ustoz:</label>
+          <input type="text" id="enrollTeacherName" readonly style="font-weight: 700; background: var(--bg-card-hover);">
+        </div>
+        <div class="form-group">
+          <label>O'quvchini tanlang *</label>
+          <select id="enrollStudentSelect" required>
+            <!-- JS to'ldiradi -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Repetitor Guruhi *</label>
+          <select id="enrollGroupSelect" required>
+            <!-- JS to'ldiradi -->
+          </select>
+        </div>
+      </div>
+      <div class="standard-modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeEnrollModal()">Bekor qilish</button>
+        <button type="submit" class="btn-primary"><i class="fa-solid fa-user-plus"></i> Biriktirish</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================================================================
+     YANGI ARIZA / LID MODALI
+     =================================================================== -->
+<div class="modal-overlay" id="addLeadModal">
+  <div class="standard-modal">
+    <div class="standard-modal-header">
+      <h3>Yangi Ariza / Lid Qo'shish</h3>
+      <button class="modal-close-btn" onclick="closeAddLeadModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="addLeadForm" onsubmit="handleCreateLead(event)">
+      <div class="standard-modal-body">
+        <div class="form-group">
+          <label>Ariza Beruvchi Ism-Familiyasi *</label>
+          <input type="text" id="newLeadName" required placeholder="Masalan: Sardor Rahmonov">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Telefon Raqam *</label>
+            <input type="text" id="newLeadPhone" required placeholder="+998 90 123 45 67">
+          </div>
+          <div class="form-group">
+            <label>Sinf / Yoshi</label>
+            <input type="text" id="newLeadAge" placeholder="8-sinf">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Qiziqqan Kurs / Repetitori *</label>
+          <input type="text" id="newLeadCourse" required placeholder="Masalan: IELTS yoki Matematika Repetitor">
+        </div>
+        <div class="form-group">
+          <label>Qayerdan bildi? (Manba)</label>
+          <select id="newLeadSource">
+            <option value="Instagram">Instagram</option>
+            <option value="Telegram">Telegram</option>
+            <option value="Tavsiya orqali">Tavsiya orqali</option>
+            <option value="Sayt orqali">Sayt orqali</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Izoh</label>
+          <textarea id="newLeadNote" rows="2" placeholder="Qo'shimcha istaklari..."></textarea>
+        </div>
+      </div>
+      <div class="standard-modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeAddLeadModal()">Bekor qilish</button>
+        <button type="submit" class="btn-primary"><i class="fa-solid fa-check"></i> Qo'shish</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================================================================
+     YANGI GURUH QO'SHISH MODALI
+     =================================================================== -->
+<div class="modal-overlay" id="addGroupModal">
+  <div class="standard-modal">
+    <div class="standard-modal-header">
+      <h3>Yangi Guruh Ochish</h3>
+      <button class="modal-close-btn" onclick="closeAddGroupModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="addGroupForm" onsubmit="handleCreateGroup(event)">
+      <div class="standard-modal-body">
+        <div class="form-group">
+          <label>Guruh Nomi *</label>
+          <input type="text" id="newGroupName" required placeholder="Masalan: Math-Olimp-2026">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Ustoz / Repetitor *</label>
+            <select id="newGroupTeacher" required>
+              <!-- JS orqali to'ldiriladi -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Daraja / Sinf *</label>
+            <input type="text" id="newGroupLevel" required placeholder="7-8 sinf">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Dars Kunlari *</label>
+            <input type="text" id="newGroupDays" required placeholder="Dush / Chor / Juma">
+          </div>
+          <div class="form-group">
+            <label>Dars Vaqti *</label>
+            <input type="text" id="newGroupTime" required placeholder="14:30 - 16:00">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Oylik Narx (UZS) *</label>
+            <input type="number" id="newGroupFee" required value="850000">
+          </div>
+          <div class="form-group">
+            <label>Maksimal Sig'im</label>
+            <input type="number" id="newGroupCapacity" value="15">
+          </div>
+        </div>
+      </div>
+      <div class="standard-modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeAddGroupModal()">Bekor qilish</button>
+        <button type="submit" class="btn-primary"><i class="fa-solid fa-check"></i> Guruhni Ochish</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================================================================
+     YANGI XARAJAT QO'SHISH MODALI
+     =================================================================== -->
+<div class="modal-overlay" id="addExpenseModal">
+  <div class="standard-modal">
+    <div class="standard-modal-header">
+      <h3>Yangi Xarajat Qayd Etish</h3>
+      <button class="modal-close-btn" onclick="closeAddExpenseModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="addExpenseForm" onsubmit="handleCreateExpense(event)">
+      <div class="standard-modal-body">
+        <div class="form-group">
+          <label>Xarajat Tavsifi *</label>
+          <input type="text" id="newExpenseDesc" required placeholder="Masalan: Oktyabr oyi ish haqi">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Turi *</label>
+            <select id="newExpenseType" required>
+              <option value="salary">Maosh (Ish haqi)</option>
+              <option value="rent">Ijara to'lovi</option>
+              <option value="supply">Jihozlar va o'quv vositalari</option>
+              <option value="utility">Kommunal xizmatlar</option>
+              <option value="other">Boshqa xarajatlar</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Summa (UZS) *</label>
+            <input type="number" id="newExpenseAmount" required placeholder="5000000">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Xodim / Qabul qiluvchi</label>
+            <select id="newExpenseRecipient">
+              <option value="Maktab administratsiyasi">Maktab administratsiyasi</option>
+              <!-- JS orqali ustoz/xodimlar qo'shiladi -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Sana</label>
+            <input type="date" id="newExpenseDate">
+          </div>
+        </div>
+      </div>
+      <div class="standard-modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeAddExpenseModal()">Bekor qilish</button>
+        <button type="submit" class="btn-primary"><i class="fa-solid fa-check"></i> Xarajatni Saqlash</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===================================================================
+     SMS / TELEGRAM YUBORISH MODALI
+     =================================================================== -->
+<div class="modal-overlay" id="sendSMSModal">
+  <div class="standard-modal" style="max-width: 640px;">
+    <div class="standard-modal-header">
+      <h3><i class="fa-solid fa-paper-plane" style="color: var(--primary);"></i> SMS / Telegram Xabar Yuborish</h3>
+      <button class="modal-close-btn" onclick="closeSendSMSModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <form id="sendSMSForm" onsubmit="handleSendSMS(event)">
+      <div class="standard-modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Yuborish Kanali *</label>
+            <select id="smsChannel" required>
+              <option value="sms">📱 SMS</option>
+              <option value="telegram">✈️ Telegram</option>
+              <option value="both">📱+✈️ Ikkisi ham</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Kimga Yuborish *</label>
+            <select id="smsTarget" required onchange="updateSMSTargetInfo()">
+              <option value="all_parents">Barcha Ota-onalarga</option>
+              <option value="debtors">Faqat Qarzdorlarga</option>
+              <option value="group">Ma'lum Guruhga</option>
+              <option value="single">Bitta O'quvchiga</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" id="smsGroupSelectWrap" style="display: none;">
+          <label>Guruhni tanlang</label>
+          <select id="smsGroupSelect">
+            <!-- JS orqali to'ldiriladi -->
+          </select>
+        </div>
+        <div class="form-group" id="smsStudentSelectWrap" style="display: none;">
+          <label>O'quvchini tanlang</label>
+          <select id="smsStudentSelect">
+            <!-- JS orqali to'ldiriladi -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Xabar Shabloni</label>
+          <select id="smsTemplate" onchange="fillSMSTemplate()">
+            <option value="custom">Erkin matn yozish</option>
+            <option value="debt_reminder">💰 Qarzdorlik eslatmasi</option>
+            <option value="class_reminder">📚 Dars eslatmasi</option>
+            <option value="exam_notify">📝 Imtihon xabarnomasi</option>
+            <option value="holiday_notify">🎉 Bayram tabrigi</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Xabar Matni *</label>
+          <textarea id="smsText" rows="4" required placeholder="Hurmatli ota-ona! Sizning farzandingiz..."></textarea>
+        </div>
+        <div class="sms-preview-box" id="smsPreviewBox">
+          <div class="sms-preview-header">
+            <i class="fa-solid fa-eye"></i> Xabar Ko'rinishi
+          </div>
+          <div class="sms-preview-body" id="smsPreviewBody">
+            Xabar matnini kiriting...
+          </div>
+          <div class="sms-preview-footer">
+            <span id="smsCharCount">0</span> belgi • <span id="smsRecipientCount">0</span> qabul qiluvchi
+          </div>
+        </div>
+      </div>
+      <div class="standard-modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeSendSMSModal()">Bekor qilish</button>
+        <button type="submit" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Yuborish</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ==================== TOAST XABARNOMALAR ==================== -->
+<div id="toastContainer" style="position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;"></div>
+
+<!-- JS Skriptlar -->
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
